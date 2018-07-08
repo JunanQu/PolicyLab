@@ -91,6 +91,25 @@ function getRealIpAddr()
     return $ip;
 }
 
+function check_login() {
+  global $db;
+
+  if (isset($_COOKIE["session"])) {
+    $session = $_COOKIE["session"];
+
+    $sql = "SELECT * FROM users WHERE session = :session_id;";
+    $params = array (
+      ":session_id" => $session,
+    );
+    $records = exec_sql_query($db, $sql, $params)->fetchAll();
+    if ($records) {
+      $account = $records[0];
+      return $account["username"];
+    }
+  }
+  return NULL;
+}
+
 function log_in($name,$mturk){
   global $db;
   global $current_user;
@@ -104,30 +123,41 @@ function log_in($name,$mturk){
       $full_list_of_users = exec_sql_query($db, "SELECT turk_id FROM users", array());
       foreach ($full_list_of_users as $individual){
         if ($individual[0] == $user_mTurk_code) {
-          var_dump($individual[0]);
-          $sql= "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id=user_question_world_answer.user_id  WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
+
+          $session = uniqid();
+          $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
           $params = array (
-          ":currentuser" => $user_mTurk_code,
+            ":user_turk" => $individual[0],
+            ":session" => $session
           );
-          $records = exec_sql_query($db, $sql, $params);
-          $question_array = array();
-          foreach($records as $record) {
-            $question_array[]=$record;
-          }
-          // var_dump($question_array[(count($question_array)-1)]);
-          $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
-          $params = array (
-          ":currentuser" => $user_mTurk_code,
-          );
-          $records = exec_sql_query($db, $sql, $params);
-          foreach ($records as $record) {
-            $record = explode(",",$record[0]);
-          }
-          $id_carrier = $record[(count($record)-1)];
-          var_dump($record[(count($record)-1)]);
-          $current_user= $user_mTurk_code;
+          $result = exec_sql_query($db, $sql, $params);
+          if ($result) {
+            setcookie("session", $session, time()+3600);
+            return $user_mTurk_code;
+            var_dump($individual[0]);
+            $sql= "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id=user_question_world_answer.user_id  WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
+            $params = array (
+            ":currentuser" => $user_mTurk_code,
+            );
+            $records = exec_sql_query($db, $sql, $params);
+            $question_array = array();
+            foreach($records as $record) {
+              $question_array[]=$record;
+            }
+            // var_dump($question_array[(count($question_array)-1)]);
+            $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
+            $params = array (
+            ":currentuser" => $user_mTurk_code,
+            );
+            $records = exec_sql_query($db, $sql, $params);
+            foreach ($records as $record) {
+              $record = explode(",",$record[0]);
+            }
+            $id_carrier = $record[(count($record)-1)];
+            var_dump($record[(count($record)-1)]);
+            $current_user= $user_mTurk_code;
         }
-      }
+      }}
     if (!$current_user){
       $sql = "INSERT INTO users (name, turk_id, user_ip) VALUES (:full_name, :turk_id, :user_ip);";
       $params = array(
@@ -141,6 +171,13 @@ function log_in($name,$mturk){
   }
 
 }
-
+if (isset($_POST['login'])) {
+  $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+  $username = trim($username);
+  $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+  $current_user = log_in($username, $password);
+}else{
+  $current_user = check_login();
+}
 
 ?>

@@ -48,6 +48,9 @@ $current_page_id="consent";
          Please select an option below:
        </p>
     </div>
+    <form action="consent.php" method="post">
+    <button name="login" type="submit" value="agree">I Want To Participate/button>
+    <button name="login" type="submit" value="disagree">I Do Not Want To Participate</button>
 
   </body>
   </html>

@@ -3,7 +3,8 @@ CREATE TABLE `users` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   `name` TEXT NOT NULL,
 	`turk_id`	TEXT NOT NULL UNIQUE,
-	`user_ip`	TEXT
+	`user_ip`	TEXT,
+  `session`	TEXT UNIQUE
 );
 
 CREATE TABLE `questions` (
