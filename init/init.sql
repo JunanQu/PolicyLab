@@ -3,7 +3,7 @@ CREATE TABLE `users` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
   `name` TEXT NOT NULL,
 	`turk_id`	TEXT NOT NULL UNIQUE,
-	`user_ip`	TEXT NOT NULL UNIQUE
+	`user_ip`	TEXT
 );
 
 CREATE TABLE `questions` (
@@ -17,10 +17,9 @@ CREATE TABLE `worlds` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE
 );
 
-CREATE TABLE `question_order` (
-	`question_id`	INTEGER,
-	`world_id`	INTEGER,
-	PRIMARY KEY(`question_id`,`world_id`)
+CREATE TABLE `user_question_order` (
+	`user_id`	INTEGER NOT NULL,
+	`question_id_sequence` TEXT NOT NULL
 );
 
 CREATE TABLE `user_question_world_answer` (
@@ -30,3 +29,21 @@ CREATE TABLE `user_question_world_answer` (
 	`answer`	INTEGER NOT NULL
 );
 ------------------------------------------------
+INSERT INTO  `users` (id, name, turk_id, user_ip) VALUES ( 1, "A","A","::1");
+INSERT INTO  `users` (id, name, turk_id, user_ip) VALUES ( 2, "B","B","::2");
+INSERT INTO  `users` (id, name, turk_id, user_ip) VALUES ( 3, "C","C","::3");
+INSERT INTO  `users` (id, name, turk_id, user_ip) VALUES ( 4, "D","D","::4");
+------------------------------------------------
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 1, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 2, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 3, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 4, 1);
+------------------------------------------------
+INSERT INTO `user_question_order` (user_id, question_id_sequence) VALUES (1,"1,2,3,4,5");
+INSERT INTO `user_question_order` (user_id, question_id_sequence) VALUES (2,"5,4,3,2,1");
+
+------------------------------------------------
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 10, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 13, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 12, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 3, 1);

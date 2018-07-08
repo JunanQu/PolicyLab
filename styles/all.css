@@ -119,3 +119,16 @@ button[type="submit"]:hover {
 body{
 	min-height: 100vh;
 }
+
+.form h1{
+  font-size: 3vw;
+}
+
+/* consent */
+#consent p {
+  width: auto;
+  white-space: pre-line;
+  text-align:left;
+  float: left;
+  font-size: 15px;
+}
