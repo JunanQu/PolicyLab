@@ -32,7 +32,7 @@ $current_page_id="index";
         echo '
         <div class="form">
         <h2>Login</h2>
-        <form action="consent.php" method="post">
+        <form action="QuestionwithChart.php" method="post">
         <label>Full Name</label>
         <input type="text" name="full_name" placeholder="Frist Last" required/>
         <label>mTurk Experiment Code</label>

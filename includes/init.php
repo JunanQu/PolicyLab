@@ -104,7 +104,7 @@ function check_login() {
     $records = exec_sql_query($db, $sql, $params)->fetchAll();
     if ($records) {
       $account = $records[0];
-      return $account["username"];
+      return $account["turk_id"];
     }
   }
   return NULL;
@@ -116,6 +116,7 @@ function log_in($name,$mturk){
   $existed = false;
   if (isset($_POST["login"])) {
       global $existed;
+      global $id_carrier;
       $user_full_name = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
       $user_mTurk_code = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
       $user_ip = htmlspecialchars(getRealIpAddr());
@@ -123,6 +124,7 @@ function log_in($name,$mturk){
       $full_list_of_users = exec_sql_query($db, "SELECT turk_id FROM users", array());
       foreach ($full_list_of_users as $individual){
         if ($individual[0] == $user_mTurk_code) {
+          var_dump($individual[0]);
 
           $session = uniqid();
           $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
@@ -154,30 +156,42 @@ function log_in($name,$mturk){
               $record = explode(",",$record[0]);
             }
             $id_carrier = $record[(count($record)-1)];
-            var_dump($record[(count($record)-1)]);
+            // var_dump($record[(count($record)-1)]);
             $current_user= $user_mTurk_code;
         }
-      }}
-    if (!$current_user){
-      $sql = "INSERT INTO users (name, turk_id, user_ip) VALUES (:full_name, :turk_id, :user_ip);";
-      $params = array(
-        ':full_name' => $user_full_name,
-        ':turk_id' => $user_mTurk_code,
-        ':user_ip' => $user_ip
-      );
-      $record = exec_sql_query($db, $sql, $params);
-      $user_id = $db->lastInsertId("id");
+      }else{
+            $sql = "INSERT INTO users (name, turk_id, user_ip) VALUES (:full_name, :turk_id, :user_ip);";
+            $params = array(
+              ':full_name' => $user_full_name,
+              ':turk_id' => $user_mTurk_code,
+              ':user_ip' => $user_ip
+            );
+            $record = exec_sql_query($db, $sql, $params);
+            $current_user= $user_mTurk_code;
+            $user_id = $db->lastInsertId("id");
+      }
     }
   }
 
 }
 if (isset($_POST['login'])) {
-  $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+  $username = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
   $username = trim($username);
-  $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+  $password = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
   $current_user = log_in($username, $password);
 }else{
   $current_user = check_login();
+  $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
+  $params = array (
+  ":currentuser" => $current_user,
+  );
+  $records = exec_sql_query($db, $sql, $params);
+  foreach ($records as $record) {
+    $record = explode(",",$record[0]);
+  }
+  $id_carrier = $record[(count($record)-1)];
+
+
 }
 
 ?>

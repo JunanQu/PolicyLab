@@ -1,9 +1,10 @@
-  <?php include('includes/header.php')?>
+<?php include('includes/header.php')?>
+<?php include('includes/init.php')?>
 
 <!DOCTYPE html>
 <html>
 <head>
-<link href="styles/extension-page-style.css" rel="stylesheet" type="text/css"  />
+<link href="styles/all.css" rel="stylesheet" type="text/css"  />
 
 <script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
   <title>Social Dynamic Lab-Policy Lab Pilot Testing</title>
@@ -12,8 +13,8 @@
 <style>
 
 .code-block-holder pre {
-      max-height: 188px;  
-      min-height: 188px; 
+      max-height: 188px;
+      min-height: 188px;
       overflow: auto;
       border: 1px solid #ccc;
       border-radius: 5px;
@@ -82,6 +83,8 @@ include("includes/fusioncharts.php");
     * dataFormat  {String}  Type of data used to render the chart. e.g. json, jsonurl, xml, xmlurl
     * dataSource  {String}  Actual data for the chart. e.g. {"chart":{},"data":[{"label":"Jan","value":"420000"}]}
     */
+var_dump($current_user);
+var_dump($id_carrier);
 $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json", '{
       "chart": {
         "caption": "Question Title",
@@ -95,7 +98,7 @@ $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json",
       },
       "data": [{
         "label": "Democrats",
-        "value": "30"
+        "value": "90"
       }, {
         "label": "Republicans",
         "value": "70"
@@ -105,7 +108,7 @@ $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json",
 $columnChart->render();
 ?>
 <div id="chart-1"><!-- Fusion Charts will render here--></div>
- 
+
 
 </body>
 </html>
