@@ -69,3 +69,8 @@ INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 2, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 4, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 5, 1);
+------------------------------------------------
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (5, 3, 4, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (5, 3, 5, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (5, 3, 3, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (5, 3, 2, 1);

@@ -104,52 +104,16 @@ function check_login() {
     );
     $records = exec_sql_query($db, $sql, $params)->fetchAll();
     if ($records) {
-      $account = $records[0];
-      return $account["turk_id"];
+      $user = $records[0];
+      return $user["turk_id"];
     }
   }
   return NULL;
 }
 
-function check_question_id(){
-  global  $db;
-  global $current_user;
-  if($current_user){
-  $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
-  $params = array (
-  ":currentuser" => $current_user,
-  );
-  $records = exec_sql_query($db, $sql, $params);
-  $sql2 = "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id = user_question_world_answer.user_id WHERE users.turk_id LIKE '%' || :currentuser || '%'";
-  $params2 = array (
-  ":currentuser" => $current_user,
-  );
-  $records2 = exec_sql_query($db, $sql2, $params2);
-  foreach ($records as $record){}
-    $A = explode(",",$record[0]);
-    $user_answered=array();
-    foreach ($records2 as $record2){
-      array_push($user_answered,$record2[0]);
-    }
-    // var_dump($A);
-    // var_dump($user_answered);
-    // var_dump($user_answered[count($user_answered)-1]);
-    return $id_carrier=$user_answered[count($user_answered)-1];
-}else{
-  return null;
-}
-}
 
-if (isset($_POST['login'])) {
-  $username = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
-  $username = trim($username);
-  $password = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
-  $current_user = log_in($username, $password);
-  $id_carrier = check_question_id();
-}else{
-  $current_user = check_login();
-  $id_carrier = check_question_id();
-}
+
+
 
 function log_in($name,$mturk){
   global $db;
@@ -160,11 +124,12 @@ function log_in($name,$mturk){
       $user_mTurk_code = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
       $user_ip = htmlspecialchars(getRealIpAddr());
 
-      $full_list_of_users = exec_sql_query($db, "SELECT turk_id FROM users", array());
-      foreach ($full_list_of_users as $individual){
-        if ($individual[0] == $user_mTurk_code) {
+      $full_list_of_users = exec_sql_query($db, "SELECT turk_id FROM users", array())->fetchAll();
+      var_dump($full_list_of_users);
+      // foreach ($full_list_of_users as $individual){
+      //   if ($individual[0] == $user_mTurk_code) {
           // var_dump($individual[0]);
-
+          if (in_array($user_mTurk_code,$full_list_of_users)){
           $session = uniqid();
           $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
           $params = array (
@@ -180,10 +145,10 @@ function log_in($name,$mturk){
             ":currentuser" => $user_mTurk_code,
             );
             $records = exec_sql_query($db, $sql, $params);
-            $question_array = array();
-            foreach($records as $record) {
-              $question_array[]=$record;
-            }
+            // $question_array = array();
+            // foreach($records as $record) {
+            //   $question_array[]=$record;
+            // }
             // var_dump($question_array[(count($question_array)-1)]);
             $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
             $params = array (
@@ -198,20 +163,88 @@ function log_in($name,$mturk){
             $current_user= $user_mTurk_code;
         }
       }else{
-            $sql = "INSERT INTO users (name, turk_id, user_ip) VALUES (:full_name, :turk_id, :user_ip);";
-            $params = array(
+            echo "THIS IS A NEW USER";
+            $sql1 = "INSERT INTO users (name, turk_id, user_ip) VALUES (:full_name, :turk_id, :user_ip);";
+            $params1 = array(
               ':full_name' => $user_full_name,
               ':turk_id' => $user_mTurk_code,
               ':user_ip' => $user_ip
             );
-            $record = exec_sql_query($db, $sql, $params);
+            $record1 = exec_sql_query($db, $sql1, $params1);
+            // ---------------------------------------
+            $session = uniqid();
+            $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
+            $params = array (
+              ":user_turk" => $user_mTurk_code,
+              ":session" => $session
+            );
+            // ---------------------------------------
+
+            $sql2 = "SELECT id FROM users WHERE turk_id LIKE :turk_id";
+            $params2 = array(
+              ':turk_id' => $user_mTurk_code,
+            );
+            $record2 = exec_sql_query($db, $sql2, $params2)->fetch(PDO::FETCH_ASSOC);
+            $current_user_id = $record2['id'];
+            var_dump($current_user_id);
+
+            // ---------------------------------------
+
+            // I need to echo out user_id from 'users' table and cast that into a variable for next sql comman
+            $sql3 = "INSERT INTO user_question_order(user_id,question_id_sequence) VALUES (:user_id, :question_seq);";
+            $params3 = array(
+              ':user_id' => $current_user_id,
+              ':question_seq' => "4,5,3,2,1"
+            );
+            $record = exec_sql_query($db, $sql3, $params3);
             $current_user= $user_mTurk_code;
-            // var_dump($current_user);
+            var_dump($current_user);
             $user_id = $db->lastInsertId("id");
       }
     }
   }
-}
+
+  function check_question_id(){
+    global  $db;
+    global $current_user;
+    var_dump($current_user);
+    if($current_user){
+    $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
+    $params = array (
+    ":currentuser" => $current_user,
+    );
+    $records = exec_sql_query($db, $sql, $params);
+    $sql2 = "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id = user_question_world_answer.user_id WHERE users.turk_id LIKE '%' || :currentuser || '%'";
+    $params2 = array (
+    ":currentuser" => $current_user,
+    );
+    $records2 = exec_sql_query($db, $sql2, $params2);
+    foreach ($records as $record){}
+      $A = explode(",",$record[0]);
+      $user_answered=array();
+      foreach ($records2 as $record2){
+        array_push($user_answered,$record2[0]);
+      }
+      // var_dump($A);
+      // var_dump($user_answered);
+      // var_dump($user_answered[count($user_answered)-1]);
+      return $id_carrier=$user_answered[count($user_answered)-1];
+  }else{
+    return null;
+  }
+  }
+
+  if (isset($_POST['login'])) {
+    $username = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
+    $username = trim($username);
+    $password = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
+    $current_user = log_in($username, $password);
+    $id_carrier = check_question_id();
+  }else{
+    $current_user = check_login();
+    $id_carrier = check_question_id();
+    var_dump($id_carrier);
+  }
 
 
 

@@ -25,10 +25,7 @@ $current_page_id="index";
   <div class="wrapper">
 
       <?php
-      if (isset($_POST['login'])) {
-      if($current_user){
-        echo "<h1>Welcome back! You have answered question #".$id_carrier ." from last time! Would you like to continue?</h1>";
-      } }else{
+
         echo '
         <div class="form">
         <h2>Login</h2>
@@ -40,7 +37,7 @@ $current_page_id="index";
         <button name="login" type="submit" value="LogIn">Log In</button>
         </form>
         ';
-      }
+      
       ?>
 
 
