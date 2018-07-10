@@ -57,6 +57,8 @@
 </head>
 <body>
 <div>
+<?php echo "<h1>Hello, ".$current_user."!"; ?>
+<?php echo "<h1>This is Question  ".$id_carrier."!"; ?>
 <h1>
 Question title
 </h1>
@@ -83,8 +85,6 @@ include("includes/fusioncharts.php");
     * dataFormat  {String}  Type of data used to render the chart. e.g. json, jsonurl, xml, xmlurl
     * dataSource  {String}  Actual data for the chart. e.g. {"chart":{},"data":[{"label":"Jan","value":"420000"}]}
     */
-var_dump($current_user);
-var_dump($id_carrier);
 $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json", '{
       "chart": {
         "caption": "Question Title",
@@ -101,7 +101,7 @@ $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json",
         "value": "90"
       }, {
         "label": "Republicans",
-        "value": "70"
+        "value": "33"
       }]
     }');
 // Render the chart

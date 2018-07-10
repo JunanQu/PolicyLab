@@ -48,9 +48,12 @@ $current_page_id="consent";
          Please select an option below:
        </p>
     </div>
+    <?if(isset($_POST["yes"])){
+      echo ''
+    }
     <form action="consent.php" method="post">
-    <button name="login" type="submit" value="agree">I Want To Participate/button>
-    <button name="login" type="submit" value="disagree">I Do Not Want To Participate</button>
+    <button name="yes" type="submit" value="agree">I Want To Participate/button>
+    <button name="no" type="submit" value="disagree">I Do Not Want To Participate</button>
 
   </body>
   </html>

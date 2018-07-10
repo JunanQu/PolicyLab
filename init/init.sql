@@ -29,6 +29,10 @@ CREATE TABLE `user_question_world_answer` (
 	`question_id`	INTEGER NOT NULL,
 	`answer`	INTEGER NOT NULL
 );
+
+INSERT INTO `worlds` (id) VALUES (1);
+INSERT INTO `worlds` (id) VALUES (2);
+INSERT INTO `worlds` (id) VALUES (3);
 ------------------------------------------------
 INSERT INTO  `users` (id, name, turk_id, user_ip, session) VALUES ( 1, "A","A","::1","jkl123ljoifn");
 INSERT INTO  `users` (id, name, turk_id, user_ip, session) VALUES ( 2, "B","B","::2","ad;jksliejql");
@@ -41,14 +45,13 @@ INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 2, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 3, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 4, 1);
-INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (1, 1, 4, 1);
+
 ------------------------------------------------
 INSERT INTO `user_question_order` (user_id, question_id_sequence) VALUES (2,"5,4,3,2,1");
 ------------------------------------------------
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 5, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 4, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 3, 1);
-INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 2, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (2, 2, 2, 1);
 ------------------------------------------------
 INSERT INTO `user_question_order` (user_id, question_id_sequence) VALUES (3,"1,3,2,4,5");
@@ -58,3 +61,11 @@ INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (3, 2, 2, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (3, 2, 4, 1);
 INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (3, 2, 5, 1);
+------------------------------------------------
+INSERT INTO `user_question_order` (user_id, question_id_sequence) VALUES (4,"1,3,2,4,5,6,7");
+------------------------------------------------
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 1, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 3, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 2, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 4, 1);
+INSERT INTO `user_question_world_answer` (user_id, world_id, question_id, answer) VALUES (4, 3, 5, 1);

@@ -2,6 +2,7 @@
 
 $title = "Policy Lab Pilot Testing";
 
+$current_user = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
 
 function exec_sql_query($db, $sql, $params = array()) {
   try{
@@ -110,13 +111,51 @@ function check_login() {
   return NULL;
 }
 
+function check_question_id(){
+  global  $db;
+  global $current_user;
+  if($current_user){
+  $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
+  $params = array (
+  ":currentuser" => $current_user,
+  );
+  $records = exec_sql_query($db, $sql, $params);
+  $sql2 = "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id = user_question_world_answer.user_id WHERE users.turk_id LIKE '%' || :currentuser || '%'";
+  $params2 = array (
+  ":currentuser" => $current_user,
+  );
+  $records2 = exec_sql_query($db, $sql2, $params2);
+  foreach ($records as $record){}
+    $A = explode(",",$record[0]);
+    $user_answered=array();
+    foreach ($records2 as $record2){
+      array_push($user_answered,$record2[0]);
+    }
+    // var_dump($A);
+    // var_dump($user_answered);
+    // var_dump($user_answered[count($user_answered)-1]);
+    return $id_carrier=$user_answered[count($user_answered)-1];
+}else{
+  return null;
+}
+}
+
+if (isset($_POST['login'])) {
+  $username = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
+  $username = trim($username);
+  $password = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
+  $current_user = log_in($username, $password);
+  $id_carrier = check_question_id();
+}else{
+  $current_user = check_login();
+  $id_carrier = check_question_id();
+}
+
 function log_in($name,$mturk){
   global $db;
   global $current_user;
   $existed = false;
   if (isset($_POST["login"])) {
-      global $existed;
-      global $id_carrier;
       $user_full_name = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
       $user_mTurk_code = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
       $user_ip = htmlspecialchars(getRealIpAddr());
@@ -124,7 +163,7 @@ function log_in($name,$mturk){
       $full_list_of_users = exec_sql_query($db, "SELECT turk_id FROM users", array());
       foreach ($full_list_of_users as $individual){
         if ($individual[0] == $user_mTurk_code) {
-          var_dump($individual[0]);
+          // var_dump($individual[0]);
 
           $session = uniqid();
           $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
@@ -136,7 +175,6 @@ function log_in($name,$mturk){
           if ($result) {
             setcookie("session", $session, time()+3600);
             return $user_mTurk_code;
-            var_dump($individual[0]);
             $sql= "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id=user_question_world_answer.user_id  WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
             $params = array (
             ":currentuser" => $user_mTurk_code,
@@ -168,30 +206,14 @@ function log_in($name,$mturk){
             );
             $record = exec_sql_query($db, $sql, $params);
             $current_user= $user_mTurk_code;
+            // var_dump($current_user);
             $user_id = $db->lastInsertId("id");
       }
     }
   }
-
 }
-if (isset($_POST['login'])) {
-  $username = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
-  $username = trim($username);
-  $password = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
-  $current_user = log_in($username, $password);
-}else{
-  $current_user = check_login();
-  $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
-  $params = array (
-  ":currentuser" => $current_user,
-  );
-  $records = exec_sql_query($db, $sql, $params);
-  foreach ($records as $record) {
-    $record = explode(",",$record[0]);
-  }
-  $id_carrier = $record[(count($record)-1)];
 
 
-}
+
 
 ?>
