@@ -57,14 +57,19 @@
 </head>
 <body>
 <div>
-<?php echo "<h1>Hello, ".$current_user."!"; ?>
-<?php echo "<h1>This is Question  ".$id_carrier."!"; ?>
-<h1>
-Question title
-</h1>
-
+<!-- <?php echo "<h1>Hello, ".$current_user."!"; ?>
+<?php echo "<h1>This is Question  ".$id_carrier."!"; ?> -->
 <p>
-Question text
+<?php
+$sql = "SELECT question_content FROM questions WHERE questions.question_id LIKE '%' || :id_carrier || '%'";
+$params = array (
+":id_carrier" => $id_carrier,
+);
+$records = exec_sql_query($db, $sql, $params)->fetchAll();
+echo $records[0][0];
+
+
+?>
 </p>
 </div>
 

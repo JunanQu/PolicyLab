@@ -94,7 +94,7 @@ function getRealIpAddr()
 
 function check_login() {
   global $db;
-
+  var_dump($_COOKIE["session"]);
   if (isset($_COOKIE["session"])) {
     $session = $_COOKIE["session"];
 
@@ -124,32 +124,30 @@ function log_in($name,$mturk){
       $user_mTurk_code = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
       $user_ip = htmlspecialchars(getRealIpAddr());
 
-      $full_list_of_users = exec_sql_query($db, "SELECT turk_id FROM users", array())->fetchAll();
-      var_dump($full_list_of_users);
+      $full_list_of_users = exec_sql_query($db, "SELECT turk_id FROM users")->fetchAll();
+      $reorganized_users=array();
+      foreach ($full_list_of_users as $user_seperate){
+        array_push($reorganized_users,$user_seperate[0]);
+      };
       // foreach ($full_list_of_users as $individual){
       //   if ($individual[0] == $user_mTurk_code) {
           // var_dump($individual[0]);
-          if (in_array($user_mTurk_code,$full_list_of_users)){
+          if (in_array($user_mTurk_code,$reorganized_users)){
+          echo "this is not a new user";
           $session = uniqid();
+          var_dump($session);
           $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
           $params = array (
-            ":user_turk" => $individual[0],
+            ":user_turk" => $user_mTurk_code,
             ":session" => $session
           );
           $result = exec_sql_query($db, $sql, $params);
           if ($result) {
             setcookie("session", $session, time()+3600);
-            return $user_mTurk_code;
-            $sql= "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id=user_question_world_answer.user_id  WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
-            $params = array (
-            ":currentuser" => $user_mTurk_code,
-            );
-            $records = exec_sql_query($db, $sql, $params);
-            // $question_array = array();
-            // foreach($records as $record) {
-            //   $question_array[]=$record;
-            // }
-            // var_dump($question_array[(count($question_array)-1)]);
+            // $sql= "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id=user_question_world_answer.user_id  WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
+            // $params = array (
+            // ":currentuser" => $user_mTurk_code,
+            // );
             $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
             $params = array (
             ":currentuser" => $user_mTurk_code,
@@ -160,7 +158,8 @@ function log_in($name,$mturk){
             }
             $id_carrier = $record[(count($record)-1)];
             // var_dump($record[(count($record)-1)]);
-            $current_user= $user_mTurk_code;
+            return $current_user= $user_mTurk_code;
+
         }
       }else{
             echo "THIS IS A NEW USER";
@@ -173,11 +172,16 @@ function log_in($name,$mturk){
             $record1 = exec_sql_query($db, $sql1, $params1);
             // ---------------------------------------
             $session = uniqid();
+            var_dump($session);
             $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
             $params = array (
               ":user_turk" => $user_mTurk_code,
               ":session" => $session
             );
+            $records = exec_sql_query($db, $sql, $params);
+            if($records){
+              setcookie("session", $session, time()+3600);
+            }
             // ---------------------------------------
 
             $sql2 = "SELECT id FROM users WHERE turk_id LIKE :turk_id";
@@ -186,7 +190,7 @@ function log_in($name,$mturk){
             );
             $record2 = exec_sql_query($db, $sql2, $params2)->fetch(PDO::FETCH_ASSOC);
             $current_user_id = $record2['id'];
-            var_dump($current_user_id);
+            // var_dump($current_user_id);
 
             // ---------------------------------------
 
@@ -198,8 +202,9 @@ function log_in($name,$mturk){
             );
             $record = exec_sql_query($db, $sql3, $params3);
             $current_user= $user_mTurk_code;
-            var_dump($current_user);
+            // var_dump($current_user);
             $user_id = $db->lastInsertId("id");
+            return $current_user;
       }
     }
   }
