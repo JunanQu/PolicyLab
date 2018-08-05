@@ -1,18 +1,6 @@
 /* User Accounts */
-CREATE TABLE `users` (
-	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-  `name` TEXT NOT NULL,
-	`turk_id`	TEXT NOT NULL UNIQUE,
-	`user_ip`	TEXT,
-  `session`	TEXT UNIQUE
-);
 
-CREATE TABLE `questions` (
-	`question_id`	INTEGER NOT NULL UNIQUE,
-	`question_name`	TEXT NOT NULL,
-	`question_content`	TEXT NOT NULL,
-	PRIMARY KEY(`question_id`)
-);
+
 
 CREATE TABLE `worlds` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE

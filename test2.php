@@ -1,16 +1,21 @@
 <?php
-    $myPDO = new PDO('pgsql:host=firsttest.camwsondhmqr.us-east-2.rds.amazonaws.com; port=5432 dbname=firsttest', 'Junan', 'Qja1998+0325');
-    // $result = $myPDO->query("SELECT * FROM Countries")->fetchAll();
+
+    $host = 'thirdtest.camwsondhmqr.us-east-2.rds.amazonaws.com';
+    $db   = 'ebdb';
+    $user = 'thirdtest';
+    $pass = 'Qja1998+0325';
+    $port = '3306';
+    $charset = 'utf8mb4';
+
+    $dsn = "mysql:host=$host;dbname=$db;port=$port;charset=$charset";
+    $opt = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ];
+    $myPDO = new PDO($dsn, $user, $pass, $opt);
     $myPDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $myPDO_init_sql = file_get_contents('init/init_P.sql');
-    $result = $myPDO->exec($myPDO_init_sql);
-
-    exec_sql_query($myPDO, "INSERT INTO  users (id, turk_id) VALUES ( 5, 'E')");
-
-    $result = exec_sql_query($myPDO, "SELECT * FROM users")->fetchAll();
-
-    var_dump($result);
 
     function random_question_order_generator(){
       $array = [];
@@ -22,8 +27,9 @@
 
       return $array;
     }
-    $new=random_question_order_generator();
-    var_dump($new);
+    $new_question_order=random_question_order_generator();
+    $new_question_order = implode(",",$new_question_order);
+    // var_dump($new_question_order);
 
 
     function exec_sql_query($myPDO, $sql, $params = array()) {
@@ -54,14 +60,14 @@
       if (isset($_COOKIE["session"])) {
         $session = $_COOKIE["session"];
 
-        $sql = "SELECT * FROM users WHERE session = :session_id;";
+        $sql = "SELECT * FROM user WHERE session = :session_id;";
         $params = array (
           ":session_id" => $session,
         );
-        $records = exec_sql_query($myPDO, $sql, $params)->fetchAll();
+        $records = exec_sql_query($myPDO, $sql, $params)->fetch(PDO::FETCH_ASSOC);;
         if ($records) {
           $user = $records[0];
-          return $user["turk_id"];
+          return $user["mturk"];
         }
       }
       return NULL;
@@ -69,93 +75,68 @@
 
     function log_in($name,$mturk){
       global $myPDO;
-      global $current_user;
-      $existed = false;
+      // global $current_user;
+      global $new_question_order;
+      $current_user = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
+
       if (isset($_POST["login"])) {
           $user_full_name = filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING);
           $user_mTurk_code = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
-          $user_ip = htmlspecialchars(getRealIpAddr());
-
-          $full_list_of_users = exec_sql_query($myPDO, "SELECT turk_id FROM users")->fetchAll();
+          $user_political = "Default_Democrat";
+          $full_list_of_users = exec_sql_query($myPDO, "SELECT mturk FROM user")->fetchAll();
+          // var_dump($full_list_of_users);
           $reorganized_users=array();
-          foreach ($full_list_of_users as $user_seperate){
-            array_push($reorganized_users,$user_seperate[0]);
+          foreach ($full_list_of_users as $a){
+            array_push($reorganized_users,$a["mturk"]);
           };
-          // foreach ($full_list_of_users as $individual){
-          //   if ($individual[0] == $user_mTurk_code) {
-              // var_dump($individual[0]);
               if (in_array($user_mTurk_code,$reorganized_users)){
               echo "this is not a new user";
               $session = uniqid();
-              var_dump($session);
-              $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
-              $params = array (
-                ":user_turk" => $user_mTurk_code,
-                ":session" => $session
-              );
-              $result = exec_sql_query($myPDO, $sql, $params);
+              $result = exec_sql_query($myPDO, "UPDATE user SET session = '". $session. "' WHERE  user.mturk = '". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
+              // var_dump($result);
               if ($result) {
                 setcookie("session", $session, time()+3600);
-                // $sql= "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id=user_question_world_answer.user_id  WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
-                // $params = array (
-                // ":currentuser" => $user_mTurk_code,
-                // );
-                $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
-                $params = array (
-                ":currentuser" => $user_mTurk_code,
-                );
-                $records = exec_sql_query($myPDO, $sql, $params);
-                foreach ($records as $record) {
-                  $record = explode(",",$record[0]);
-                }
+                $records = exec_sql_query($myPDO, "SELECT user_id, question_id_sequence FROM user_question_order INNER JOIN user ON user.id = user_question_order.user_id WHERE user.mturk='". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
+                // var_dump($records);
+                $record = explode(",",$records['question_id_sequence']);
+
                 $id_carrier = $record[(count($record)-1)];
                 // var_dump($record[(count($record)-1)]);
+                // var_dump($current_user);
                 return $current_user= $user_mTurk_code;
-
             }
+            return $current_user= $user_mTurk_code;
           }else{
+                $current_user = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
+                $user_mTurk_code = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
+                $user_political = "Default_Democrat";
                 echo "THIS IS A NEW USER";
-                $sql1 = "INSERT INTO users (name, turk_id, user_ip) VALUES (:full_name, :turk_id, :user_ip);";
-                $params1 = array(
-                  ':full_name' => $user_full_name,
-                  ':turk_id' => $user_mTurk_code,
-                  ':user_ip' => $user_ip
-                );
-                $record1 = exec_sql_query($myPDO, $sql1, $params1);
-                // ---------------------------------------
+                var_dump($user_mTurk_code,$user_political);
+                $result = exec_sql_query($myPDO, "INSERT INTO user (mturk, political_stand, question_id_sequence) VALUES ('$user_mTurk_code', '$user_political', '$new_question_order')");
+                var_dump($result);
                 $session = uniqid();
-                var_dump($session);
-                $sql = "UPDATE users SET session = :session WHERE  users.turk_id = :user_turk;";
-                $params = array (
-                  ":user_turk" => $user_mTurk_code,
-                  ":session" => $session
-                );
-                $records = exec_sql_query($myPDO, $sql, $params);
+                // var_dump($session);
+
+                $records = exec_sql_query($myPDO, "UPDATE user SET session = '". $session. "' WHERE  user.mturk = '". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
                 if($records){
                   setcookie("session", $session, time()+3600);
                 }
                 // ---------------------------------------
 
-                $sql2 = "SELECT id FROM users WHERE turk_id LIKE :turk_id";
-                $params2 = array(
-                  ':turk_id' => $user_mTurk_code,
-                );
-                $record2 = exec_sql_query($myPDO, $sql2, $params2)->fetch(PDO::FETCH_ASSOC);
+                $record2 = exec_sql_query($myPDO, "SELECT id FROM user WHERE user.mturk = '". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
                 $current_user_id = $record2['id'];
-                // var_dump($current_user_id);
+                var_dump($current_user_id);
 
                 // ---------------------------------------
 
                 // I need to echo out user_id from 'users' table and cast that into a variable for next sql comman
-                $sql3 = "INSERT INTO user_question_order(user_id,question_id_sequence) VALUES (:user_id, :question_seq);";
-                $params3 = array(
-                  ':user_id' => $current_user_id,
-                  ':question_seq' => "4,5,3,2,1"
-                );
-                $record = exec_sql_query($myPDO, $sql3, $params3);
-                $current_user= $user_mTurk_code;
-                // var_dump($current_user);
+
+                // var_dump($new_question_order);
+                // $result3 = exec_sql_query($myPDO, "INSERT INTO user_question_order VALUES ('$current_user_id', '$new_question_order')");
+                // $a= exec_sql_query($myPDO, "SELECT * FROM user_question_order")->fetchAll();
+                // var_dump($a);
                 $user_id = $myPDO->lastInsertId("id");
+                $current_user= $user_mTurk_code;
                 return $current_user;
           }
         }
@@ -164,28 +145,21 @@
       function check_question_id(){
         global  $myPDO;
         global $current_user;
-        var_dump($current_user);
+        // var_dump($current_user);
         if($current_user){
-        $sql = "SELECT question_id_sequence FROM user_question_order INNER JOIN users ON users.id = user_question_order.user_id WHERE users.turk_id  LIKE  '%' || :currentuser || '%'";
-        $params = array (
-        ":currentuser" => $current_user,
-        );
-        $records = exec_sql_query($myPDO, $sql, $params);
-        $sql2 = "SELECT question_id FROM user_question_world_answer INNER JOIN users ON users.id = user_question_world_answer.user_id WHERE users.turk_id LIKE '%' || :currentuser || '%'";
-        $params2 = array (
-        ":currentuser" => $current_user,
-        );
-        $records2 = exec_sql_query($myPDO, $sql2, $params2);
-        foreach ($records as $record){}
-          $A = explode(",",$record[0]);
-          $user_answered=array();
-          foreach ($records2 as $record2){
-            array_push($user_answered,$record2[0]);
-          }
-          // var_dump($A);
-          // var_dump($user_answered);
-          // var_dump($user_answered[count($user_answered)-1]);
-          return $id_carrier=$user_answered[count($user_answered)-1];
+
+        // var_dump($current_user);
+        $records = exec_sql_query($myPDO, "SELECT mturk, question_id_sequence FROM user WHERE mturk='". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
+
+        $records2 = exec_sql_query($myPDO, "SELECT question_id FROM user_question_world_answer INNER JOIN user ON user.id = user_question_world_answer.user_id WHERE user.mturk='". $current_user. "'")->fetchAll();
+
+        $A = explode(",",$records["question_id_sequence"]);
+        var_dump($A);
+        $B = count($records2);
+        var_dump($B);
+        $C = $A[$B-1];
+        // var_dump($C);
+        return $id_carrier=$C;
       }else{
         return null;
       }
@@ -197,10 +171,12 @@
         $password = filter_input(INPUT_POST, 'mTurk_code', FILTER_SANITIZE_STRING);
         $current_user = log_in($username, $password);
         $id_carrier = check_question_id();
+        // var_dump($current_user);
       }else{
         $current_user = check_login();
+        // var_dump($current_user);
         $id_carrier = check_question_id();
-        var_dump($id_carrier);
+        // var_dump($id_carrier);
       }
 
 ?>

@@ -17,7 +17,7 @@ function exec_sql_query($db, $sql, $params = array()) {
 }
 
 function handle_db_error($exception) {
-
+  return null;
 }
 
 $messages = array();

@@ -1,7 +1,4 @@
-
-
-
-/* CREATE TABLE users (
+CREATE TABLE users (
 	id	INTEGER NOT NULL PRIMARY KEY UNIQUE,
 	turk_id	VARCHAR(50) NOT NULL UNIQUE,
   session	TEXT UNIQUE
@@ -18,7 +15,7 @@ CREATE TABLE worlds (
 	id	INTEGER NOT NULL PRIMARY KEY UNIQUE
 );
 */
-/* CREATE TABLE user_question_order (
+CREATE TABLE user_question_order (
 	user_id	INTEGER NOT NULL,
 	question_id_sequence TEXT NOT NULL
 );
@@ -30,12 +27,12 @@ CREATE TABLE user_question_world_answer (
 	answer	INTEGER NOT NULL); */
 
 
-/* INSERT INTO  users (id, turk_id) VALUES ( 1, 'A');
+NSERT INTO  users (id, turk_id) VALUES ( 1, 'A');
 INSERT INTO  users (id, turk_id) VALUES ( 2, 'B');
 INSERT INTO  users (id, turk_id) VALUES ( 3, 'C');
 INSERT INTO  users (id, turk_id) VALUES ( 4, 'D'); */
 
-/* INSERT INTO worlds (id) VALUES (1);
+INSERT INTO worlds (id) VALUES (1);
 INSERT INTO worlds (id) VALUES (2);
 INSERT INTO worlds (id) VALUES (3);
 
