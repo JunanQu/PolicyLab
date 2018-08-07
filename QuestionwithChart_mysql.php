@@ -62,28 +62,22 @@
 <p>
 <?php
 $records = exec_sql_query($myPDO, "SELECT question_content FROM questions WHERE questions.id ='". $id_carrier."'")->fetch(PDO::FETCH_ASSOC);
-echo($records['question_content'])
+echo($records['question_content']);
+
+
 ?>
 </p>
 </div>
 
 <?php
-
+echo ('<div id="chart-1"><!-- Fusion Charts will render here--></div>
+<form action="QuestionwithChart_mysql.php" method="post">
+<button name="support" type="submit" value="support">Support</button>
+<button name="oppose" type="submit" value="oppose">Oppose</button>
+</form>');
 // Including the wrapper file in the page
 include("includes/fusioncharts.php");
 
-
-	// Preparing the object of FusionCharts with needed informations
-    /**
-    * The parameters of the constructor are as follows
-    * chartType   {String}  The type of chart that you intend to plot. e.g. Column3D, Column2D, Pie2D etc.
-    * chartId     {String}  Id for the chart, using which it will be recognized in the HTML page. Each chart on the page should have a unique Id.
-    * chartWidth  {String}  Intended width for the chart (in pixels). e.g. 400
-    * chartHeight {String}  Intended height for the chart (in pixels). e.g. 300
-    * containerId {String}  The id of the chart container. e.g. chart-1
-    * dataFormat  {String}  Type of data used to render the chart. e.g. json, jsonurl, xml, xmlurl
-    * dataSource  {String}  Actual data for the chart. e.g. {"chart":{},"data":[{"label":"Jan","value":"420000"}]}
-    */
 $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json", '{
       "chart": {
         "caption": "Question Title",
@@ -106,7 +100,6 @@ $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json",
 // Render the chart
 $columnChart->render();
 ?>
-<div id="chart-1"><!-- Fusion Charts will render here--></div>
 
 
 </body>

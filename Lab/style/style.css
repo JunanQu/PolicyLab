@@ -1,0 +1,297 @@
+input[type="button"]:disabled
+{
+    opacity: 0.5;
+    background-color: #9B9B9B;
+    cursor: not-allowed;
+}
+
+body {
+    background-color: #F0EEE4;
+}
+h1{
+	font-family: "Avenir";
+	font-size: 15px;
+	font-style: bold;
+
+}
+h2{
+	line-height: 0.5;
+
+}
+p{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+}
+label{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+h3{
+	font-family: "Avenir";
+	font-size: 30px;
+	line-height: 0.5;
+}
+
+.button {
+    background-color: #0A3B84; 
+    opacity: 1.0;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    font-family: "Avenir";
+    border-radius: 4px;
+    width: 598px;
+    cursor:pointer;
+}
+
+.wrapper {
+    width: 600px;
+    margin: auto;
+    text-align: left;
+    padding: 50px 50px;
+    background-color: #fff;
+}
+
+.header {
+  padding: 5px 50px;
+  background: #0A3B84;
+  color: #FFFFFF;
+  font-family: "Avenir";
+  font-size: 20px;
+  width: 600px;
+  margin: auto;
+}
+p2{
+	 color: #FFFFFF;
+	 font-size: 15px;
+	line-height: 1.5;
+}
+
+
+/*new bar chart*/
+
+.demo-Approve {
+    position: absolute;
+    bottom: 100px;
+    left: 580px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+
+.demo-Oppose {
+    position: absolute;
+    bottom: 395px;
+    left: 580px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+.demo-chart {
+    position: absolute;
+    bottom: 100px;
+    left: 748px;
+ 	 opacity:1;
+}
+
+.rep-Approve {
+    position: absolute;
+    bottom: 100px;
+    left: 790px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+
+.rep-Oppose {
+    position: absolute;
+    bottom: 395px;
+    left: 790px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+.rep-chart {
+    position: absolute;
+    bottom: 100px;
+    left: 537px;
+ 	 opacity:1;
+}
+
+
+
+
+.support {
+ position: absolute;
+    bottom: 278px;
+    left: 340px;
+  height: 88px;
+  width: 88px;
+  background-color: #555;
+  opacity:0.3;
+}
+.oppose {
+ position: absolute;
+    bottom: 171px;
+    left: 340px;
+  height: 88px;
+  width: 88px;
+  background-color: #555;
+  opacity:0.3;
+}
+
+
+.line{
+position: absolute;
+bottom: 264px;
+left: 479px;
+  height: 2px;
+  width: 439px;
+  background-color: black;
+  opacity:1;
+}
+}
+
+
+
+
+
+
+
+    /* css bar graph */
+    .bargraph {     
+          height: 229px; 
+          position: relative; 
+          background:  url(http://pics.cssbakery.com/pics/papergrid.jpg) repeat-x; 
+          border-left: 1px solid #d4d4d4;
+          margin: 15px auto 50px;
+    }
+
+    .bargraph ul.bars {
+        margin: 0; 
+        padding: 0; 
+        /* getting rid of bullets */
+        list-style-type: none;
+    }
+
+
+
+
+    .bargraph ul.bars li {  
+        position: absolute; 
+        width: 30px; 
+        height: 200px; 
+        /*move it up from bottom label*/
+        bottom: 29px; 
+        padding: 0; 
+        margin: 0; 
+        background: url(http://pics.cssbakery.com/pics/bars200.jpg) no-repeat;
+        text-align: center; 
+        font-weight: bold; 
+        color: white; 
+        line-height: 2.5em;
+        font-family: "Avenir",Verdana,Arial,Helvetica,sans-serif;
+        font-size: 13px;
+        z-index: 99;
+    }
+
+
+
+    .bargraph ul.bars li.bar1 { left: 95px;  }
+    .bargraph ul.bars li.bar2 { left: 238px;  }
+   
+   
+    /* bottom means 100% in background-position */
+    .bargraph ul.bars li.bluebar  { background-position: 0px bottom; }
+    .bargraph ul.bars li.redbar   { background-position: -30px bottom; }
+    .bargraph ul.bars li.greenbar { background-position: -60px bottom; }
+    .bargraph ul.bars li.orangebar  {  background-position: -90px bottom; }
+    .bargraph ul.bars li.grapebar   {  background-position: -120px bottom; }
+    .bargraph ul.bars li.purplebar  {  background-position: -150px bottom; }
+    .bargraph ul.bars li.crimsonbar {  background-position: -180px bottom; }
+    .bargraph ul.bars li.navybar    {  background-position: -210px bottom; }
+    .bargraph ul.bars li.goldbar    {  background-position: -240px bottom; }
+    .bargraph ul.bars li.tealbar    {  background-position: -270px bottom; }
+
+
+    .label { list-style-type: none; 
+             position: absolute; bottom: 3px; 
+             margin: 0; padding: 0; }
+             
+    .label li { 
+        color:white; 
+        text-transform: uppercase; 
+        letter-spacing: 0.1em;
+        font-size: 10px;
+        width: 73px;
+       
+        float: left;
+        text-align: center;
+       /*safeguard against a label that is too long - if they type
+          that in from the HTML
+        */
+        overflow: hidden;
+
+        font-family: "Avenir";
+        line-height: 1.6em;
+    }
+
+
+    ul.y-axis { list-style-type: none; position: absolute; 
+                /*
+                  positioning the ul box - the box that goes 
+                  around the list, 100, 75,... */
+                  left: -85px; 
+                  width: 40px;
+                  text-align: right;
+                  bottom: 0;
+                  margin: 0; padding: 0; 
+    }
+
+    ul.y-axis li:first-child {
+         height: 40px;
+         line-height: 40px;
+    }
+
+    ul.y-axis li { 
+        color: #aba8a8;  
+        font-size: 12px;
+        height: 51px;
+        line-height: 51px;
+        text-align: right;
+    }
+
+    ul.y-axis li.units {
+        position: absolute;
+        bottom: 110px;
+        right: 20px;
+        line-height: 1.2em;
+        height: auto;
+    }
+  /*labeling of the graph*/
+  .bargraph  p { 
+                position: absolute; 
+                left: 0; 
+                top: 236px; 
+                
+                padding: 0; 
+                margin:0; 
+                text-align: left; 
+     
+                width: 100%;
+                font-family: "Avenir";
+                font-size: 10px; color: black;
+                line-height: 1.3em;
+                
+              }
+   .bargraph p.centered { text-align: center; }
+
+   /* end of css bar graph */
+
