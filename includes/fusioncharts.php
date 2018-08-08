@@ -1,7 +1,6 @@
 <?php
-
     class FusionCharts {
-        
+
         private $constructorOptions = array();
 
         private $constructorTemplate = '
@@ -37,12 +36,12 @@
                     $tempArray[$key] = $value;
                 }
             }
-            
+
             $jsonEncodedOptions = json_encode($tempArray);
-            
+
             if ($dataFormat === 'json') {
                 $jsonEncodedOptions = preg_replace('/\"__dataSource__\"/', $this->constructorOptions['dataSource'], $jsonEncodedOptions);
-            } elseif ($dataFormat === 'xml') { 
+            } elseif ($dataFormat === 'xml') {
                 $jsonEncodedOptions = preg_replace('/\"__dataSource__\"/', '\'__dataSource__\'', $jsonEncodedOptions);
                 $jsonEncodedOptions = preg_replace('/__dataSource__/', $this->constructorOptions['dataSource'], $jsonEncodedOptions);
             } elseif ($dataFormat === 'xmlurl') {

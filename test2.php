@@ -198,14 +198,15 @@
       }else{
         $current_user = check_login();
         $id_carrier = check_question_id();
-        $curent_user_world_id = exec_sql_query($myPDO, "SELECT world FROM user WHERE mturk = '". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
-        $current_user_world_id = $curent_user_world_id['world'];
+        $current_user_world_id = exec_sql_query($myPDO, "SELECT world FROM user WHERE mturk = '". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
+        $current_user_world_id = $current_user_world_id['world'];
+        var_dump($current_user_world_id['world']);
         if (isset($_POST['support'])){
           $user_answer = "support";
           // $curent_user_world_id = exec_sql_query($myPDO, "SELECT world FROM user WHERE mturk = '". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
           // $curent_user_world_id = $curent_user_world_id['world'];
-          var_dump($current_user,$id_carrier,$curent_user_world_id);
-          exec_sql_query($myPDO, "INSERT INTO user_question_world_answer (user_id, world_id, question_id, user_response) VALUES ('$current_user', '$curent_user_world_id', '$id_carrier', 'support') ");
+          var_dump($current_user,$id_carrier,$current_user_world_id);
+          exec_sql_query($myPDO, "INSERT INTO user_question_world_answer (user_id, world_id, question_id, user_response) VALUES ('$current_user', '$current_user_world_id', '$id_carrier', 'support') ");
           $current_user = check_login();
           $id_carrier = check_question_id();
         }
@@ -213,7 +214,7 @@
           $user_answer = "oppose";
           // $current_user_world_id = exec_sql_query($myPDO, "SELECT world FROM user WHERE mturk = '". $current_user. "'")->fetch(PDO::FETCH_ASSOC);
           // $current_user_world_id = $curent_user_world_id['world'];
-          var_dump($current_user,$id_carrier,$curent_user_world_id);
+          var_dump($current_user,$id_carrier,$current_user_world_id);
           exec_sql_query($myPDO, "INSERT INTO user_question_world_answer (user_id, world_id, question_id, user_response) VALUES ('$current_user', '$current_user_world_id', '$id_carrier', 'support') ");
           $current_user = check_login();
           $id_carrier = check_question_id();
@@ -230,5 +231,10 @@
       //   var_dump($current_user,$id_carrier,$curent_user_world_id);
       //   exec_sql_query($myPDO, "INSERT INTO user_question_world_answer (user_id, world_id, question_id, user_response) VALUES ('$current_user', '$curent_user_world_id', '$id_carrier', 'support') ");
       // }
-
+      var_dump($current_user_world_id,$id_carrier);
+      $a=exec_sql_query($myPDO, "SELECT * FROM user_question_world_answer WHERE (question_id = '$id_carrier' AND user_response = 'support' AND world_id = '$current_user_world_id')");
+      var_dump($a);
+      $b=1/count($a);
+      // $percent_friendly = number_format( $b * 100, 2 ) . '%';
+      var_dump($b);
 ?>

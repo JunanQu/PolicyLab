@@ -64,7 +64,6 @@
 $records = exec_sql_query($myPDO, "SELECT question_content FROM questions WHERE questions.id ='". $id_carrier."'")->fetch(PDO::FETCH_ASSOC);
 echo($records['question_content']);
 
-
 ?>
 </p>
 </div>
@@ -77,7 +76,7 @@ echo ('<div id="chart-1"><!-- Fusion Charts will render here--></div>
 </form>');
 // Including the wrapper file in the page
 include("includes/fusioncharts.php");
-
+var_dump($b);
 $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json", '{
       "chart": {
         "caption": "Question Title",
@@ -91,7 +90,7 @@ $columnChart = new FusionCharts("column2d", "ex1" , 600, 400, "chart-1", "json",
       },
       "data": [{
         "label": "Democrats",
-        "value": "90"
+        "value": "100"
       }, {
         "label": "Republicans",
         "value": "33"

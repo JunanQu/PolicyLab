@@ -1,0 +1,240 @@
+input[type="button"]:disabled
+{
+    opacity: 0.5;
+    background-color: #9B9B9B;
+    cursor: not-allowed;
+}
+
+body {
+    background-color: #F0EEE4;
+}
+h1{
+	font-family: "Avenir";
+	font-size: 15px;
+	font-style: bold;
+
+}
+h2{
+	line-height: 0.5;
+
+}
+p{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+
+p1{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+	position: absolute;
+	bottom: -1%;
+	 left: 42.25%;
+	 color:#D0021B;
+}
+
+p3{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+	position: absolute;
+	bottom: -1%;
+	left: 60%;
+	color:#4A90E2;
+}
+
+
+label{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+
+
+.button {
+    background-color: #0A3B84;
+    opacity: 1.0;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    font-family: "Avenir";
+    border-radius: 4px;
+    width: 598px;
+    cursor:pointer;
+}
+
+.wrapper {
+    width: 600px;
+    margin: auto;
+    text-align: left;
+    padding: 50px 50px;
+    background-color: #fff;
+}
+
+.header {
+  padding: 5px 50px;
+  background: #0A3B84;
+  color: #FFFFFF;
+  font-family: "Avenir";
+  font-size: 20px;
+  width: 600px;
+  margin: auto;
+}
+p2{
+	 color: #FFFFFF;
+	 font-size: 15px;
+	line-height: 1.5;
+}
+
+
+/*new bar chart*/
+
+.background{
+	width:600px;
+	height:500px;
+	background-size: 600px,450px;
+
+	position:relative;
+	background-image: url('../style/artboard2.jpg');
+	background-repeat: no-repeat;
+
+}
+
+rep-Approve {
+    position: absolute;
+    bottom: 120px;
+    left:255px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+rep-Oppose {
+    position: absolute;
+    bottom: 415px;
+    left: 255px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+
+
+.rep-chart {
+    position: absolute;
+    bottom: 116px;
+    left: 210px;
+ 	opacity:1;
+}
+
+
+
+
+
+demo-Approve {
+    position: absolute;
+    bottom: 120px;
+    left: 465px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+
+Demo-Oppose {
+    position: absolute;
+    bottom: 415px;
+    left: 465px;
+    font-family: "Avenir";
+	font-size: 10px;
+	color: black;
+}
+
+.demo-chart {
+    position: absolute;
+    left:421px;
+    bottom:116px;
+ 	opacity:1;
+}
+
+
+
+
+
+/*the support and oppose button*/
+.support {
+ position: absolute;
+    bottom: 289px;
+    left: 13px;
+  height: 88px;
+  width: 88px;
+  background-color: #555;
+  opacity:0.3;
+}
+
+.oppose {
+ position: absolute;
+    bottom: 184px;
+    left: 13px;
+  height: 88px;
+  width: 88px;
+  background-color: #555;
+  opacity:0.3;
+}
+
+
+
+
+.line{
+position: absolute;
+bottom: 275px;
+left: 153px;
+  height: 2px;
+  width: 439px;
+  background-color: black;
+  opacity:1;
+}
+
+
+h3{
+	font-family: "Avenir";
+	font-size: 30px;
+	line-height: 0.5;
+	position: absolute;
+	bottom: 25px;
+	left:230px;
+	color:#D0021B
+}
+
+h4{
+	font-family: "Avenir";
+	font-size: 30px;
+	line-height: 0.5;
+	 position: absolute;
+	bottom: 15px;
+	left: 450px;
+	color:#4A90E2
+}
+p1{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+	position: absolute;
+	bottom: 15px;
+	 left: 205px;
+	 color:#D0021B;
+}
+
+p3{
+	font-family: "Avenir";
+	font-size: 15px;
+	line-height: 1.5;
+	position: absolute;
+	bottom: 15px;
+	left: 420px;
+	color:#4A90E2;
+}
