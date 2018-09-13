@@ -36,7 +36,7 @@ h3{
 }
 
 .button {
-    background-color: #0A3B84; 
+    background-color: #7a38ff;
     opacity: 1.0;
     border: none;
     color: white;
@@ -61,7 +61,7 @@ h3{
 
 .header {
   padding: 5px 50px;
-  background: #0A3B84;
+  background: #7a38ff;
   color: #FFFFFF;
   font-family: "Avenir";
   font-size: 20px;
@@ -157,7 +157,7 @@ left: 479px;
   background-color: black;
   opacity:1;
 }
-}
+
 
 
 
@@ -166,17 +166,17 @@ left: 479px;
 
 
     /* css bar graph */
-    .bargraph {     
-          height: 229px; 
-          position: relative; 
-          background:  url(http://pics.cssbakery.com/pics/papergrid.jpg) repeat-x; 
+    .bargraph {
+          height: 229px;
+          position: relative;
+          background:  url(http://pics.cssbakery.com/pics/papergrid.jpg) repeat-x;
           border-left: 1px solid #d4d4d4;
           margin: 15px auto 50px;
     }
 
     .bargraph ul.bars {
-        margin: 0; 
-        padding: 0; 
+        margin: 0;
+        padding: 0;
         /* getting rid of bullets */
         list-style-type: none;
     }
@@ -184,18 +184,18 @@ left: 479px;
 
 
 
-    .bargraph ul.bars li {  
-        position: absolute; 
-        width: 30px; 
-        height: 200px; 
+    .bargraph ul.bars li {
+        position: absolute;
+        width: 30px;
+        height: 200px;
         /*move it up from bottom label*/
-        bottom: 29px; 
-        padding: 0; 
-        margin: 0; 
+        bottom: 29px;
+        padding: 0;
+        margin: 0;
         background: url(http://pics.cssbakery.com/pics/bars200.jpg) no-repeat;
-        text-align: center; 
-        font-weight: bold; 
-        color: white; 
+        text-align: center;
+        font-weight: bold;
+        color: white;
         line-height: 2.5em;
         font-family: "Avenir",Verdana,Arial,Helvetica,sans-serif;
         font-size: 13px;
@@ -206,8 +206,8 @@ left: 479px;
 
     .bargraph ul.bars li.bar1 { left: 95px;  }
     .bargraph ul.bars li.bar2 { left: 238px;  }
-   
-   
+
+
     /* bottom means 100% in background-position */
     .bargraph ul.bars li.bluebar  { background-position: 0px bottom; }
     .bargraph ul.bars li.redbar   { background-position: -30px bottom; }
@@ -221,17 +221,17 @@ left: 479px;
     .bargraph ul.bars li.tealbar    {  background-position: -270px bottom; }
 
 
-    .label { list-style-type: none; 
-             position: absolute; bottom: 3px; 
+    .label { list-style-type: none;
+             position: absolute; bottom: 3px;
              margin: 0; padding: 0; }
-             
-    .label li { 
-        color:white; 
-        text-transform: uppercase; 
+
+    .label li {
+        color:white;
+        text-transform: uppercase;
         letter-spacing: 0.1em;
         font-size: 10px;
         width: 73px;
-       
+
         float: left;
         text-align: center;
        /*safeguard against a label that is too long - if they type
@@ -244,15 +244,15 @@ left: 479px;
     }
 
 
-    ul.y-axis { list-style-type: none; position: absolute; 
+    ul.y-axis { list-style-type: none; position: absolute;
                 /*
-                  positioning the ul box - the box that goes 
+                  positioning the ul box - the box that goes
                   around the list, 100, 75,... */
-                  left: -85px; 
+                  left: -85px;
                   width: 40px;
                   text-align: right;
                   bottom: 0;
-                  margin: 0; padding: 0; 
+                  margin: 0; padding: 0;
     }
 
     ul.y-axis li:first-child {
@@ -260,8 +260,8 @@ left: 479px;
          line-height: 40px;
     }
 
-    ul.y-axis li { 
-        color: #aba8a8;  
+    ul.y-axis li {
+        color: #aba8a8;
         font-size: 12px;
         height: 51px;
         line-height: 51px;
@@ -276,22 +276,21 @@ left: 479px;
         height: auto;
     }
   /*labeling of the graph*/
-  .bargraph  p { 
-                position: absolute; 
-                left: 0; 
-                top: 236px; 
-                
-                padding: 0; 
-                margin:0; 
-                text-align: left; 
-     
+  .bargraph  p {
+                position: absolute;
+                left: 0;
+                top: 236px;
+
+                padding: 0;
+                margin:0;
+                text-align: left;
+
                 width: 100%;
                 font-family: "Avenir";
                 font-size: 10px; color: black;
                 line-height: 1.3em;
-                
+
               }
    .bargraph p.centered { text-align: center; }
 
    /* end of css bar graph */
-

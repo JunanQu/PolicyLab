@@ -1,4 +1,4 @@
-<?php include('includes/header.php')?>
+<!-- <?php include('includes/header.php')?> -->
 <?php include('test2.php')?>
 <!DOCTYPE html>
 <html>
@@ -118,10 +118,16 @@ function enableButton() {
 
 
 
+       <?php
 
-       <form action="QuestionwithChart_mysql.php" method="post">
-       <p><input type="checkbox" id="myCheck" onclick="javascript:enableButton();" >  I
-       have read the above information and consent to take part in the study.<br></p>
+       if ( $curent_user_world_id['world'] == 1 ){
+       echo'<form action="nochart.php" method="post">';
+        }else{
+       echo'<form action="newChart2.php" method="post">';
+        }
+       ?>
+       <p><input type="checkbox" id="myCheck" onclick="javascript:enableButton();" >
+         I have read the above information and consent to take part in the study.<br></p>
 
 
      <input type = "submit" class="button" id = "myButton" value = "I consent to participate" onclick="javascript:enableButton();"  >

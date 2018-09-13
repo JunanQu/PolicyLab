@@ -1,13 +1,14 @@
-<?php include('test2.php');
+<?php
 
-$full_list_of_users = exec_sql_query($myPDO, "SELECT * FROM user")->fetchAll();
-var_dump($full_list_of_users);
-//
-$question_user_id = exec_sql_query($myPDO, "SELECT * FROM user_question_world_answer")->fetchAll();
-var_dump($question_user_id);
+include('test2.php');
 
-// $user_question_order = exec_sql_query($myPDO, "SELECT * FROM user_question_order")->fetchAll();
-// var_dump($user_question_order);
+$users = exec_sql_query($myPDO, "SELECT * FROM user ")->fetchAll();
+var_dump($users);
 
+$quesiton_dataset = exec_sql_query($myPDO, "SELECT * FROM user_question_world_answer ")->fetchAll();
+// var_dump($quesiton_dataset);
+
+$world = exec_sql_query($myPDO, "SELECT * FROM world ")->fetchAll();
+var_dump($world);
 
 ?>

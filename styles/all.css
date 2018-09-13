@@ -46,7 +46,7 @@ input[type="text"], input[type="password"] {
 		margin-bottom: 30px;
     text-transform: uppercase;
     font-size: 26px;
-    color:rgba(77, 160, 236, 0.51);
+    color:Black;
     font-weight: 600;
     letter-spacing: 2px;
 }
@@ -76,19 +76,19 @@ button[type="submit"] {
     padding: 9px 60px;
     font-size: 18px;
     border: none;
-    background-color:rgba(77, 160, 236, 0.51);
+    background-color:#7a38ff;
     color: #fff;
     text-transform: uppercase;
     outline: 0;
-    border: 2px solid rgba(77, 160, 236, 0.51);
+    border: 2px solid r#7a38ff;
 		cursor: pointer;
 	  width: 100%;
 	  letter-spacing: 1px;
 }
 button[type="submit"]:hover {
-  color: rgba(77, 160, 236, 0.51);
+  color: #7a38ff;
   background-color: white;
-	border: 2px solid rgba(77, 160, 236, 0.51);
+	border: 2px solid #7a38ff;
 }
 
 /* header */
@@ -97,7 +97,7 @@ button[type="submit"]:hover {
 	margin:0 auto;
 }
 .header-top{
-	background:rgba(105, 210, 236, 0.51);
+	background:#7a38ff;
 }
 .menu{
 	float:right;
@@ -131,4 +131,43 @@ body{
   text-align:left;
   float: left;
   font-size: 15px;
+}
+
+.supportbutton {
+	position: fixed;
+	bottom:10%;
+	z-index: 100;
+}
+
+.opposebutton{
+	position: fixed;
+	bottom: 2%;
+	z-index: 100;
+}
+
+.question_text{
+	margin: 5%;
+	margin-left: 2%;
+	font-size: 20px;
+	text-align: center;
+}
+
+.demo_percent{
+	position: fixed;
+	bottom: 18%;
+	margin-left: 28%;
+	z-index: 100;
+}
+
+.no_chart_question_text p{
+  position: fixed;
+  top: 50%;
+  left: 20%;
+	right: 20%;
+	font-size: 20px;
+	text-align: center;
+}
+
+.wrap h1, h2{
+	color: white;
 }

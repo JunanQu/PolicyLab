@@ -12,7 +12,7 @@ function create_image(){
 $width = 101;
 //change the height here
 //1% = 3.2
-$height = $percent_friendly*3.2;
+$height = $b;
 
 $image = imagecreate($width, $height);
 

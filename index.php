@@ -1,4 +1,4 @@
-<?php include('includes/init.php');
+<?php include('test2.php');
 
 $current_page_id="index";
 
@@ -29,9 +29,12 @@ $current_page_id="index";
         echo '
         <div class="form">
         <h2>Login</h2>
-        <form action="QuestionwithChart.php" method="post">
-        <label>Full Name</label>
-        <input type="text" name="full_name" placeholder="Frist Last" required/>
+        <form action="consent0.php" method="post">
+        <label>Political Stand</label>
+        <select name="political_stand">
+          <option value="Democrats">Democrats</option>
+          <option value="Republicans">Republicans</option>
+        </select>
         <label>mTurk Experiment Code</label>
         <input type="text" name="mTurk_code" placeholder="expCode" required />
         <button name="login" type="submit" value="LogIn">Log In</button>
@@ -39,7 +42,7 @@ $current_page_id="index";
         ';
 
       ?>
-
+<!-- <input type="text" name="full_name" placeholder="Frist Last" required/> -->
 
     </div>
   </div>

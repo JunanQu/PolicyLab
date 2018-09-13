@@ -1,4 +1,4 @@
-<?php
+<?php include('test2.php');
 
 $current_page_id="index";
 
